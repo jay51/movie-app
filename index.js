@@ -3,15 +3,6 @@
 // .then(res => res.json())
 // .then(data => data.Search)
 // .then(search => search.map((search)=>console.log(search)));
-//
-
-
-
-
-
-
-
-
 
 const searchForm = document.querySelector("#search-form");
 const searchInput = document.querySelector("#search-input");
@@ -30,7 +21,7 @@ searchForm.addEventListener("submit", (e)=>{
     }
     searchTerm.value = "";
     //search Reddit
-    search()
+    search(searchTerm);
 
 
     e.preventDefault();
@@ -55,8 +46,8 @@ function showMessage(message, className){
 }
 
 // fetch data from redditApi
-function search(){
-        fetch("http://www.omdbapi.com/?apikey=thewdb&s=kill")
+function search(search){
+        fetch("http://www.omdbapi.com/?apikey=thewdb&s="+search)
         .then(res => res.json())
         .then(data => data.Search)
         .then(results => {
@@ -69,25 +60,28 @@ function search(){
 
                 output+=`
                     <div class='card'>
-                    <img class='card-img-top' src='${movie.Poster}' alt='Card image cap'>
-                    <div class='card-block'>
-                    <h4 class='card-title ml-2'>${movie.Title}</h4>
-                    <p class='card-text ml-2'>${movie.Year}</p>
-                    <a href='${movie.Type}' target="_blank" class='btn btn-primary ml-2'>Read More</a>
-                    <hr>
-                        <span class="badge badge-secondary">Subreddit: </span>
-                        <span class="badge badge-dark">Score: </span>
-                    </hr>
-                    </div>
+                        <img class='card-img-top mb-3 border border-dark' src='${movie.Poster}' alt='Card image cap'>
+                        <div class='card-block'>
+                            <h4 class='card-title ml-2'>${movie.Title}</h4>
+                            <p class='card-text ml-2'>
+                                <span class="badge badge-dark">${movie.Year}</span>
+                                <span class="badge badge-info">${movie.Type}</span>
+                                </p>
+                            <a href='https://www.google.com/search?q=${movie.Title}' target="_blank" class='btn btn-primary ml-2'>Read More</a>
+                            <hr>
+                                <span class="badge badge-secondary">Subreddit: </span>
+                                <span class="badge badge-dark">Score: </span>
+                            </hr>
+                        </div>
                     </div>
                 `
             })
 
         output+="</div>";
         document.querySelector("#results").innerHTML = output;
-    }).catch(error => console.log(error));
+    }).catch(error => showMessage("movie Not found ", "alert-warning"));
 }
-search();
+
 // Truncate Text
 function truncate(text, numOfChar){
     const shortend = text.indexOf(" ", numOfChar);
