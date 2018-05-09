@@ -56,11 +56,14 @@ function search(search){
             // loop start off here!
             results.forEach((movie) => {
                 console.log(movie);
-                let img = movie.Poster ? movie.Poster : "http://postmediaottawacitizen2.files.wordpress.com/2014/06/politifact-photos-reddit.jpg"
+                let img;
+                if( movie.Poster ==="N/A")
+                    img = "http://postmediaottawacitizen2.files.wordpress.com/2014/06/politifact-photos-reddit.jpg";
+                else img = movie.Poster;
 
                 output+=`
                     <div class='card'>
-                        <img class='card-img-top mb-3 border border-dark' src='${movie.Poster}' alt='Card image cap'>
+                        <img class='card-img-top mb-3 border border-dark' src='${img}' alt='Card image cap'>
                         <div class='card-block'>
                             <h4 class='card-title ml-2'>${movie.Title}</h4>
                             <p class='card-text ml-2'>
